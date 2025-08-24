@@ -93,7 +93,10 @@
 									PB2	= CTRL		;			L		J		G		D		A		CRSR ->/<-
 									PB1 = <-		*			P		I		Y		R		W		RETURN
 									PB0 = 1			£			+		9		7		5		3		INST/DEL
-                                    5th 'virtual' mode: FIRE2 (POTX) = port2 pin9 down (connect to Atmega88 PB1(pin15))
+                                    6th 'virtual' mode: R=FIRE3 and L=FIRE2 swapped
+									5th 'virtual' mode: R=FIRE2 (POTX) = port2 pin9 (connect to Atmega88 PB1(pin15))
+														L=FIRE3 (POTY) = port2 pin5 (connect to Atmega88 PB2(pin16))
+									
 
 	SELECT + (A,B,X,Y)			SELECT MAPPING 
 	
@@ -221,9 +224,10 @@
 #define CP_RIGHT 8
 #define CP_FIRE 16
 #define CP_FIRE2 32
+#define CP_FIRE3 64
 
 #define CP_DIRS 15	//All directions pressed
-#define CP_ALL 63	//with fire
+#define CP_ALL 127	//with fire3
 
 
 #define SNES_LATCH_LOW()	do { SNES_LCH_PORT &= ~(SNES_LATCH); } while(0)
@@ -786,8 +790,27 @@ uint8_t MASTERHELD;
 							if (SWAP==0){	
 								if ((PAD&PAD_R)==0){
 									MATRIX=MATRIX<<1;
-									if (MATRIX>32) MATRIX=1; // Fire2 16->32
+									if (MATRIX>64) MATRIX=1;
 									MASTERHELD=1;
+									// Add LED feedback for matrix mode change
+									uint8_t mode_number = 0;
+									uint8_t temp = MATRIX;
+									// Count which bit is set to determine the mode number (1->1, 2->2, 4->3, 8->4, 16->5, 32->6, 64->7)
+									while (temp > 1) {
+										temp >>= 1;
+										mode_number++;
+									}
+									mode_number++; // Adjust because first mode is 1 (which is 2^0)
+
+									// Blink the LED 'mode_number' of times
+									for (uint8_t i = 0; i < mode_number; i++) {
+										SetLED(1);
+										_delay_ms(75);
+										SetLED(0);
+										if (i < mode_number - 1) { // No delay after the last blink
+											_delay_ms(75);
+										}
+									}
 								}	
 							}
 							if ((PAD&PAD_L)==0){
@@ -810,8 +833,14 @@ uint8_t MASTERHELD;
 							if (MATRIX <= 16) {
 								C64_PORT[0]=C64_PORT[0]|MATRIX;
 							} else if (MATRIX == 32) {
-								C64_PORT[1] |= CP_FIRE2; // Handle Second Fire Button (POTX)
+								C64_PORT[1] |= CP_FIRE2;
+							} else if (MATRIX == 64) {
+								C64_PORT[1] |= CP_FIRE3;
 							}
+						}
+						if (((PAD & PAD_L)==0)&&(SWAP==0)) {
+							if (MATRIX==32) C64_PORT[1] |= CP_FIRE3;
+							else if (MATRIX==64) C64_PORT[1] |= CP_FIRE2;
 						}
 					}
 					
@@ -996,7 +1025,7 @@ uint8_t ReadCP2(void){
 
 void SetCP2(uint8_t data){
 	DDRD = (DDRD & 31)|((data & 7) << 5);
-	DDRB = ((data & 8) >> 3)|((data & 16) << 3)|((data & 32) >> 4);
+	DDRB = ((data & 8) >> 3)|((data & 16) << 3)|((data & 32) >> 4)|((data & 64) >> 4);
 }
 
 void SetCP1(uint8_t data){
