@@ -105,11 +105,11 @@ For flashing you can use for example USBasp usb adapter that you can get for cou
 
 Flashing command: **avrdude -c usbasp -p m88p -U flash:w:PadSwitcher64_fire3.hex:i**
 
-Soldering: you need to solder a wire between port2 pin9 and arduino corner pin15, see picture below.
+Soldering: For FIRE2 you need to solder a wire between port2 pin9 and arduino corner pin15, see picture below.
 
 ![IMG20250824125429](https://github.com/user-attachments/assets/4afe381d-7d42-48bd-8e23-1a04da50a9ac)
 
-And then solder second wire between port1 pin5 and arduino pin 15, see yellow cable on picture below.
+And then solder second wire between port2 pin5 and arduino pin 16 for FIRE3, see yellow cable on picture below.
 
 ![IMG20250824203504](https://github.com/user-attachments/assets/c3cfeb80-d6a5-46f9-9c47-a8f8227d45a3)
 
