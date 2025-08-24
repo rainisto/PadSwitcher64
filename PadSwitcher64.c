@@ -92,8 +92,8 @@
 									PB3 = 2			CLR/HOME	-		0		8		6		4		F7/F8
 									PB2	= CTRL		;			L		J		G		D		A		CRSR ->/<-
 									PB1 = <-		*			P		I		Y		R		W		RETURN
-									PB0 = 1			£			+		9		7		5		3		INST/DEL
-
+									PB0 = 1			Â£			+		9		7		5		3		INST/DEL
+                                    5th 'virtual' mode: FIRE2 (POTX) = port2 pin9 down (connect to Atmega88 PB1(pin15))
 
 	SELECT + (A,B,X,Y)			SELECT MAPPING 
 	
@@ -117,7 +117,7 @@
 		Byte 2 - bit 1			PA4 (Joy 2 Fire)
 		Byte 2 - bit 2			Pad Button has turbofire action
 		Byte 2 - Bit 3			Pad Button has turbofire action (inverted)
-		
+
 		Bits 4 - 7 of byte 2 are not accessable through the command interface.
 		
 		
@@ -220,9 +220,10 @@
 #define CP_LEFT 4
 #define CP_RIGHT 8
 #define CP_FIRE 16
+#define CP_FIRE2 32
 
 #define CP_DIRS 15	//All directions pressed
-#define CP_ALL 31	//with fire
+#define CP_ALL 63	//with fire
 
 
 #define SNES_LATCH_LOW()	do { SNES_LCH_PORT &= ~(SNES_LATCH); } while(0)
@@ -785,7 +786,7 @@ uint8_t MASTERHELD;
 							if (SWAP==0){	
 								if ((PAD&PAD_R)==0){
 									MATRIX=MATRIX<<1;
-									if (MATRIX>16) MATRIX=1;
+									if (MATRIX>32) MATRIX=1; // Fire2 16->32
 									MASTERHELD=1;
 								}	
 							}
@@ -805,7 +806,13 @@ uint8_t MASTERHELD;
 						if ((PAD&PAD_Y)==0) C64_PORT[B]=C64_PORT[B]|CP_FIRE;
 						if ((PAD&PAD_A)==0) C64_PORT[B]=C64_PORT[B]|SPECIAL|CP_FIRE;
 						if ((PAD&PAD_X)==0) C64_PORT[B]=C64_PORT[B]|((RAPIDSTATE&4)<<2);
-						if (((PAD&PAD_R)==0)&&(SWAP==0)) C64_PORT[0]=C64_PORT[0]|MATRIX;
+						if (((PAD&PAD_R)==0)&&(SWAP==0)) {
+							if (MATRIX <= 16) {
+								C64_PORT[0]=C64_PORT[0]|MATRIX;
+							} else if (MATRIX == 32) {
+								C64_PORT[1] |= CP_FIRE2; // Handle Second Fire Button (POTX)
+							}
+						}
 					}
 					
 				}else{
@@ -989,7 +996,7 @@ uint8_t ReadCP2(void){
 
 void SetCP2(uint8_t data){
 	DDRD = (DDRD & 31)|((data & 7) << 5);
-	DDRB = ((data & 8) >> 3)|((data & 16) << 3);
+	DDRB = ((data & 8) >> 3)|((data & 16) << 3)|((data & 32) >> 4);
 }
 
 void SetCP1(uint8_t data){
