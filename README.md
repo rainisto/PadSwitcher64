@@ -52,7 +52,7 @@ This source code was written using AVR-GCC and AVR Libc.  The C64-side software 
 |(In normal or mapped mode)|Enter type 1 direct mode|
 |(In any other mode)|Force normal mode|
 
-(*3) - Joystick port 1, which corresponds to CIA 1 PB0 to PB4, PB4 which are normally used as the keyboard input lines during keyboard scanning.  By default at startup this is set to PB4, which most software will interpret as the SPACEBAR. Led will flash shortly 1-7 (ID+1) times when you change the matrix line.
+(*3) - Joystick port 1, which corresponds to CIA 1 PB0 to PB4, PB4 which are normally used as the keyboard input lines during keyboard scanning.  By default at startup this is set to PB4, which most software will interpret as the SPACEBAR. Led will flash shortly 1-7 (ID+1) times when you change the matrix line with **SELECT + R**.
 |ID|CIA1 PortB|CIA1 PA7|PA6|PA5|PA4|PA3|PA2|PA1|PA0|
 |---|---|---|---|---|---|---|---|---|---|
 |4|**PB4**|SPACE|R-SHIFT|.|M|B|C|Z|F1/F2|
