@@ -52,15 +52,16 @@ This source code was written using AVR-GCC and AVR Libc.  The C64-side software 
 |(In normal or mapped mode)|Enter type 1 direct mode|
 |(In any other mode)|Force normal mode|
 
-(*3) - Joystick port 1, which corresponds to CIA 1 PB0 to PB4, PB4 which are normally used as the keyboard input lines during keyboard scanning.  By default at startup this is set to PB4, which most software will interpret as the SPACEBAR.
-|CIA1 PortB|CIA1 PA7|PA6|PA5|PA4|PA3|PA2|PA1|PA0|
-|---|---|---|---|---|---|---|---|---|
-|**PB4**|SPACE|R-SHIFT|.|M|B|C|Z|F1/F2|
-|**PB3**|2|CLR/HOME|-|0|8|6|4|F7/F8|
-|**PB2**|CTRL|;|L|J|G|D|A|CRSR ->/<-|
-|**PB1**|<-|*|P|I|Y|R|W|RETURN|
-|**PB0**|1|£|+|9|7|5|3|INST/DEL|
-|**JoyPort2**|FIRE2|
+(*3) - Joystick port 1, which corresponds to CIA 1 PB0 to PB4, PB4 which are normally used as the keyboard input lines during keyboard scanning.  By default at startup this is set to PB4, which most software will interpret as the SPACEBAR. Led will flash shortly 1-7 (ID+1) times when you change the matrix line.
+|ID|CIA1 PortB|CIA1 PA7|PA6|PA5|PA4|PA3|PA2|PA1|PA0|
+|---|---|---|---|---|---|---|---|---|---|
+|4|**PB4**|SPACE|R-SHIFT|.|M|B|C|Z|F1/F2|
+|3|**PB3**|2|CLR/HOME|-|0|8|6|4|F7/F8|
+|2|**PB2**|CTRL|;|L|J|G|D|A|CRSR ->/<-|
+|1|**PB1**|<-|*|P|I|Y|R|W|RETURN|
+|0|**PB0**|1|£|+|9|7|5|3|INST/DEL|
+|6|**JoyPort2**|R=FIRE3|L=FIRE2|
+|5|**JoyPort2**|R=FIRE2|L=FIRE3|
 
 (*4) - Only functional when prompted, only functional in default mapping mode.
 
@@ -107,3 +108,9 @@ Flashing command: **avrdude -c usbasp -p m88p -U flash:w:PadSwitcher64_fire2.hex
 Soldering: you need to solder a wire between port2 pin9 and arduino corner pin15, see picture below.
 
 ![IMG20250824125429](https://github.com/user-attachments/assets/4afe381d-7d42-48bd-8e23-1a04da50a9ac)
+
+And then solder second wire between port1 pin5 and arduino pin 15, see yellow cable on picture below.
+
+![IMG20250824203504](https://github.com/user-attachments/assets/c3cfeb80-d6a5-46f9-9c47-a8f8227d45a3)
+
+If you don't want to do modifications by yourself then note that I'm selling 3d printed cased pre-built devices in Ebay.
