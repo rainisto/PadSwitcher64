@@ -103,7 +103,7 @@ For flashing you can use for example USBasp usb adapter that you can get for cou
 
 <img width="254" height="168" alt="isp_header" src="https://github.com/user-attachments/assets/df007ece-9fe3-488e-884b-10f3da084c4f" />
 
-Flashing command: **avrdude -c usbasp -p m88p -U flash:w:PadSwitcher64_fire2.hex:i**
+Flashing command: **avrdude -c usbasp -p m88p -U flash:w:PadSwitcher64_fire3.hex:i**
 
 Soldering: you need to solder a wire between port2 pin9 and arduino corner pin15, see picture below.
 
