@@ -95,7 +95,7 @@ Direct mode allows all the SNES control pad buttons to be read by the C64.  Type
 |A|DC01|01111|Port 1 fire|
 |Select|DC01|00000|Port 1 all|
 
-# FIRE2 changes and firmware update on existing boards  
+# FIRE2 and FIRE3 changes and firmware update on existing boards  
 
 Install avrdude, for example in ubuntu use: **apt install avrdude**
 
