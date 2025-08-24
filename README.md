@@ -93,3 +93,17 @@ Direct mode allows all the SNES control pad buttons to be read by the C64.  Type
 |R|DC01|10111|Port 1 right|
 |A|DC01|01111|Port 1 fire|
 |Select|DC01|00000|Port 1 all|
+
+# FIRE2 changes and firmware update on existing boards  
+
+Install avrdude, for example in ubuntu use: **apt install avrdude**
+
+For flashing you can use for example USBasp usb adapter that you can get for couple of euroes (google search: "USBasp aliexpress"). Reference below picture when connecting the pins.
+
+<img width="254" height="168" alt="isp_header" src="https://github.com/user-attachments/assets/df007ece-9fe3-488e-884b-10f3da084c4f" />
+
+Flashing command: **avrdude -c usbasp -p m88p -U flash:w:PadSwitcher64_fire2.hex:i**
+
+Soldering: you need to solder a wire between port2 pin9 and arduino corner pin15, see picture below.
+
+![IMG20250824125429](https://github.com/user-attachments/assets/4afe381d-7d42-48bd-8e23-1a04da50a9ac)
