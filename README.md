@@ -57,9 +57,10 @@ This source code was written using AVR-GCC and AVR Libc.  The C64-side software 
 |---|---|---|---|---|---|---|---|---|
 |**PB4**|SPACE|R-SHIFT|.|M|B|C|Z|F1/F2|
 |**PB3**|2|CLR/HOME|-|0|8|6|4|F7/F8|
-|**PB2**|CTRL|;|L|J|G|D|A|CRSR|->/<-|
+|**PB2**|CTRL|;|L|J|G|D|A|CRSR ->/<-|
 |**PB1**|<-|*|P|I|Y|R|W|RETURN|
 |**PB0**|1|£|+|9|7|5|3|INST/DEL|
+|**JoyPort2**|FIRE2|
 
 (*4) - Only functional when prompted, only functional in default mapping mode.
 
